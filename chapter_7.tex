@@ -1,0 +1,336 @@
+\setcounter{section}{6}
+
+
+
+\section{矩阵特征值和特征向量的数值解法}
+
+\frame{
+\frametitle{特征值 $\&$ 特征向量}
+设$A$是$n \times n$矩阵，
+\begin{center}
+$\Downarrow$
+\end{center}
+如果存在数$\lambda$和$n$维非零向量$x$，
+满足$A x = \lambda x$，
+\begin{center}
+$\Downarrow$
+\end{center}
+则称$\lambda$为矩阵$A$的一个特征值，$x$称为与$\lambda$对应的特征向量。
+}
+
+
+
+\subsection{幂法}
+
+\frame{
+设$A$具有$n$个线性无关的特征向量$x_1$， $x_2$， $\cdots$， $x_n$，
+其相应的特征值为$\lambda_1$， $\lambda_2$， $\cdots$， $\lambda_n$满足
+\begin{equation*}
+|\lambda_1| \ge |\lambda_2| \ge |\lambda_3| \ge \cdots \ge |\lambda_n|
+\end{equation*}
+现任取一个非零向量$\mu_0$，令
+\begin{equation*}
+\mu_k = A \mu_{k-1}  \hspace{5mm} (k = 1, 2, \cdots )
+\end{equation*}
+得向量序列$\{ \mu_k \}$，$k = 0, 1, 2, \cdots$
+}
+
+\frame{
+因为$x_1$， $x_2$， $\cdots$， $x_n$线性无关，
+故$n$维向量$\mu_0$可由它们线性表示为
+\begin{equation*}
+\mu_0 = a_1 x_1 + a_2 x_2 + \cdots + a_n x_n
+\end{equation*}
+所以
+\begin{equation*}
+\begin{array}{l l}
+\mu_k & = A \mu_{k-1}  = A^2 \mu_{k-2} = \cdots =   A^k \mu_{0} \\
+& \\
+& = a_1 A^k x_1 + a_2 A^k x_2 + \cdots + a_n A^k x_n  \\
+& \\
+& = a_1 \lambda_1^k x_1 + a_2 \lambda_2^k x_2 + \cdots + a_n \lambda_n^k x_n  \\
+& \\
+& = \lambda_1^k \left[ a_1 x_1 + a_2 \left( \frac{\lambda_2}{\lambda_1} \right)^k x_2 + \cdots + a_n \left( \frac{\lambda_n}{\lambda_1} \right)^k x_n   \right]\\
+\end{array}
+\end{equation*}
+设$a_1 \neq 0$，因为$\left| \frac{\lambda_2}{\lambda_1} \right| < 1$，$\cdots$，
+当 $k$充分大时，有$\mu_k \approx \lambda_1^k a_1 x_1$，且为非零向量，
+所以$\mu_k$可以近似的作为$\lambda_1$对应的特征向量。
+}
+
+\frame{
+为防止$\mu_k$的模过大或者过小产生的计算机运算的上下溢出，
+通常每次迭代都对$\mu_k$进行归一化，
+使$||\mu_k||_{\infty} = 1$
+\begin{center}
+$\Downarrow$
+\end{center}
+幂法公式改进为
+\begin{equation*}
+y_{k-1} = \frac{\mu_{k-1}}{||\mu_{k-1}||_{\infty} }
+\end{equation*}
+\begin{equation*}
+\mu_k = A y_{k-1} \hspace{5mm} (k = 1, 2, \cdots )
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+由迭代公式知
+\begin{equation*}
+\mu_k = \frac{A \mu_{k-1}}{||\mu_{k-1}||_{\infty} } = \frac{ \frac{A^2 \mu_{k-2}}{||\mu_{k-2}||_{\infty}} }{\left| \left| \frac{A \mu_{k-2}}{||\mu_{k-2}||_{\infty} } \right| \right|_{\infty} } 
+= \frac{A^2 \mu_{k-2}}{||A \mu_{k-2}||_{\infty}}
+= \cdots =
+\frac{A^k \mu_0}{||A^{k-1} \mu_0||_{\infty}}
+\end{equation*}
+}
+
+\frame{
+当$k$相当大时，$\mu_k$和$\mu_{k-1}$都可以近似为$\lambda_1$对应的特征向量
+\begin{equation*}
+\mu_k = A \frac{A \mu_{k-1}}{||\mu_{k-1}||_{\infty} }
+\end{equation*}
+有
+\begin{equation*}
+\mu_k = \lambda_1 \frac{\mu_{k-1}}{||\mu_{k-1}||_{\infty}}
+\end{equation*}
+\begin{equation*}
+||\mu_k||_{\infty} = |\lambda_1|  \frac{||\mu_{k-1}||_{\infty}}{||\mu_{k-1}||_{\infty}} =  |\lambda_1| 
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+故$\lambda_1$就是$||\mu_{k}||_{\infty}$剩下的问题是确定$\lambda_1$的符号。
+$||\mu_{k}||_{\infty}$是$\mu_k$的各分量中绝对值最大者
+}
+
+\frame{
+设$\mu_k$和$\mu_{k-1}$的绝对值最大的分量为$a_k$和$a_{k-1}$，
+因此可得
+\begin{equation*}
+a_k = \lambda_1 \frac{a_{k-1}}{||\mu_{k}||_{\infty}}
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+\begin{equation*}
+\lambda_1 = \frac{a_k}{a_{k-1}} ||\mu_{k-1}||_{\infty}
+\end{equation*}
+\begin{equation*}
+sgn(\lambda_1) = sgn \left( \frac{a_k}{a_{k-1}} \right)
+\end{equation*}
+\begin{block}{}
+经过迭代之后，$ ||\mu_{k}||_{\infty}$稳定后，取$|\lambda_1| =  ||\mu_{k}||_{\infty}$，
+而$\lambda_1$的符号由以下原则确定：
+\begin{itemize}
+\item 当相邻两次的$\mu_k$和$\mu_{k-1}$对应分量符号相同，$\lambda_1$的符号为正；
+\item 否则为负。
+\end{itemize}
+\end{block}
+}
+
+\frame{
+\begin{block}{幂法算法}
+给定$n \times n$矩阵$A$，精度为$\varepsilon$，任取非零向量$\mu_0$，对$k = 1, 2, \cdots$，
+执行以下各步骤：
+\vspace{3mm}
+\begin{itemize}
+\item $\textcircled{1}$ 设$|a_r| = \max_{1 \le i \le n} |a_i|$，其中$a_i$是$\mu_{k-1} = (a_1, a_2, \cdots, a_n)^T$的各个分量
+\vspace{3mm}
+\item $\textcircled{2}$ $y_{k-1} = \mu_{k-1} \slash  |a_r|$
+\vspace{3mm}
+\item $\textcircled{3}$ $\mu_k = A y_{k-1}$
+\vspace{3mm}
+\item $\textcircled{4}$ $t_k = sgn(a_r) \times (\mu_k)_r$
+\vspace{3mm}
+\item $\textcircled{5}$ 若$|t_k - t_{k-1}| < \varepsilon$，令$\lambda_1 = t_k$，$x_1 = y_{k-1}$，推出运算；否则返回$\textcircled{1}$
+\end{itemize}
+\end{block}
+}
+
+%\frame{
+%\frametitle{幂法的几点问题}
+%\begin{itemize}
+%\item 当$A$不具有$n$个线性无关的特征向量时，幂法不适用。$\Rightarrow$当使用幂法运算时，如果发现不收敛，要考虑此种可能。
+%\item 
+
+%\end{itemize}
+%}
+
+
+
+\subsection{反幂法}
+
+\frame{
+由于$A x_i = \lambda_i x_i$，可以推出
+\begin{equation*}
+A^{-1} x_i = \frac{1}{\lambda_i} x_i
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+若有$|\lambda_1| \ge |\lambda_2| \ge \cdots |\lambda_{n-1}| \ge |\lambda_n|$，
+则$\frac{1}{\lambda_n}$是$A^{-1}$的按模最大的特征值
+\begin{center}
+$\Downarrow$
+\end{center}
+用幂法求出$A^{-1}$的按模最大特征值，即求出$A$的按模最小的特征值。
+\begin{center}
+$\Downarrow$\\
+\end{center}
+\begin{center}
+这种方法称为：{\huge 反幂法}
+\end{center}
+}
+
+%\frame{
+%反幂法的迭代公式变为$\mu_k = A^{-1} y_{k-1}$ $\Rightarrow$ 要先计算逆阵$A^{-1}$。
+%\begin{center}
+%$\Downarrow$\\
+%\end{center}
+%为避免求逆矩阵，需要
+%}
+
+
+\frame{
+\begin{block}{反幂算法}
+\begin{itemize}
+\item $\textcircled{1}$ 对$A$进行LU分解，求出L，U
+\item $\textcircled{2}$ 对任意非零向量$\mu_0$，$k=1, 2, \cdots$执行
+\begin{itemize}
+\item $a)$ $|a_r| = \max_{1 \le i \le n} |a_i|$，$a_i$是$\mu+{k-1} = (a_1, a_2, \cdots, a_n)^T$的分量
+\item $b)$ 
+\begin{equation*}
+y_{k-1} \frac{\mu_{k-1}}{|a_r|}
+\end{equation*}
+\item $c)$ 解
+\begin{equation*}
+\left\{ 
+\begin{array}{l}
+L x_{k-1} = y_{k-1} \\
+U \mu_k = x_{k-1}
+\end{array}
+\right.
+\end{equation*}
+得到$\mu_k$
+\item $d)$ 
+\begin{equation*}
+t_k = \frac{sgn(a_r)}{(\mu_k)_r}
+\end{equation*}
+\item $e)$ 当$|t_{k} - t_{k-1}| < \varepsilon$， 令$\lambda_n = t_k$，$x_n = y_{k-1}$，退出运算；否则返回$a)$
+\end{itemize}
+\end{itemize}
+\end{block}
+}
+
+\frame{
+\frametitle{原点平移加速}
+设矩阵$B = A - tI$，$t$为选择平移量，$I$为单位矩阵。
+\begin{center}
+$\Downarrow$
+\end{center}
+$A$的特征值为$\lambda_1$， $\lambda_2$， $\cdots$， $\lambda_n$，
+则$B$的特征值 $\lambda_1 - t$， $\lambda_2 - t$， $\cdots$， $\lambda_n - t$，
+且$A$，$B$的特征向量相同
+\begin{center}
+$\Downarrow$
+\end{center}
+适当选择$t$，使$\lambda_1 - t$仍是$B$的按模最大特征值，且
+\begin{equation*}
+\left| \frac{\lambda_2 - t}{\lambda_1 - t} \right| < \left| \frac{\lambda_2}{\lambda_1} \right|
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+对$B$用幂法求$\lambda_1 - t$，比直接对$A$求$\lambda_1$要快。
+$\Rightarrow$
+求出$\lambda_1 - t$自然而然也就求出$\lambda_1$
+}
+
+\frame{
+设$A$的特征值都为实数，且$\lambda_1 > \lambda_2 \ge \cdots \ge \lambda_{n-1} > \lambda_n$
+\begin{center}
+$\Downarrow$
+\end{center}
+不论如何选择$t$，$B$的按模最大特征值要么是$\lambda_1 -t$，要么$\lambda_n -t$
+\begin{center}
+$\Downarrow$
+\end{center}
+选择$t$应该满足
+\begin{equation*}
+|\lambda_1 - t| \ge |\lambda_n - t|
+\end{equation*}
+\begin{equation*}
+\max \left\{ \frac{|\lambda_2 - t|}{|\lambda_1 - t|}, \frac{|\lambda_n - t|}{|\lambda_1 - t|} \right\} = \min
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+当$\lambda_2 - t = - ( \lambda_n - t) $，即$t = \frac{\lambda_2 + \lambda_n}{2}$时，收敛速度最快。
+$\Rightarrow$
+$\lambda_2$与$\lambda_n$事先是未知的，故上述结论只有理论的意义。
+}
+
+
+\frame{
+\frametitle{求已知特征值的特征向量}
+若已知$A$的某一特征值$\lambda_m$的近似值$\lambda'_m$
+\begin{center}
+$\Downarrow$
+\end{center}
+\begin{equation*}
+|\lambda_m - \lambda'_m| = \min |\lambda_i - \lambda'_m|
+\end{equation*}
+按原点平移法的思想，取$t = \lambda'_m$ $B = A - \lambda'_m I$，
+则$B$的按模最小的特征值是$\lambda_m - \lambda'_m$，
+对应的特征向量则与$A$的对应$\lambda_m$的特征向量相同
+\begin{center}
+$\Downarrow$
+\end{center}
+对$B$做反幂法：
+取初始向量$z_0$，做迭代
+\begin{equation*}
+\left\{
+\begin{array}{l c l}
+B y_k & = & z_{k-1} \\
+m_k  & = & \max (y_k) \\
+z_k   & = & y_k \slash m_k  \hspace{3mm} (k = 1, 2, \cdots) \\
+\end{array} 
+\right.
+\end{equation*}
+其中$\max(y_k)$表示$y_k$的绝对值最大的分量。
+}
+
+\frame{
+当$B y_k = z_{k-1}$时，也可先对$B$作LU分解，以免重复分解工作。
+\begin{center}
+$\Downarrow$
+\end{center}
+\begin{equation*}
+\lim_{k \to \infty} m_k = 
+\end{equation*}
+\begin{equation*}
+\lim_{k \to \infty} z_k = 
+\end{equation*}
+
+}
+
+
+\subsection{雅科比(Jacobi)方法}
+
+\frame{
+\begin{equation*}
+1
+\end{equation*}
+}
+
+\frame{
+}
+
+
+
+\subsection{QR算法}
+
+\frame{
+}
+
+

@@ -1,0 +1,603 @@
+\subsection{复化求积公式}
+
+
+
+\frame{
+\begin{itemize}
+\item 当$n \to \infty$时，并非对所有的$f(x)$，都有
+\begin{equation*}
+\int_a^b f(x) dx - \sum_{i=0}^n (b-a) c_i^{(n)} f(x_i) \to 0
+\end{equation*}
+这说明Newton-Cotes求积公式的收敛性对某些被求积函数$f(x)$得不到保证。
+\item 当$n \ge 8$时，Newton-Cotes求积公式的稳定性也得不到保证。
+\end{itemize}
+\begin{center}
+$\Downarrow$
+\end{center}
+\begin{block}{}
+为了提高积分近似公式的精度，可以采用复化公式
+\begin{itemize}
+\item  复化梯形求积公式
+\item  复化Simpson求积公式
+\end{itemize}
+\end{block}
+}
+
+\frame{
+\frametitle{复化梯形求积公式}
+把积分区间$[a, b]$进行$n$等分，得到$n+1$个点$x_0$, $x_1$, $\cdots$, $x_k$, $\cdots$, $x_n$，
+其中$x_k = a + k h$；$k = 0, 1, \cdots, n$；$h = (b-a) \slash n$， 
+使用这些分点把区间$[a, b]$进行$n$个小区间$[x_0, x_1]$, $[x_1, x_2]$, $\cdots$, $[x_{n-1}, x_n]$。
+根据定积分的性质和梯形求积公式可得：
+\begin{equation*}
+\begin{array}{l l l}
+\int_a^b f(x) dx & = & \int_{x_0}^{x_1} f(x) dx + \int_{x_1}^{x_2} f(x) dx + \cdots + \int_{x_{n-1}}^{x_n} f(x) dx \\
+& & \\
+& = & \sum_{k=0}^{n-1} \int_{x_k}^{x_{k+1}} f(x) dx \\
+& & \\
+& \approx & \sum_{k=0}^{n-1} \frac{x_{k+1} - x_k}{2} [f(x_k) + f(x_{k+1})] \\
+& & \\
+& = & \frac{h}{2} \sum_{k=0}^{n-1} [f(x_k) + f(x_{k+1})] \\
+& & \\
+& = & \frac{h}{2}  [f(a) + f(b)  + 2 \sum_{k=1}^{n-1} f(a + kh) ]\\
+\end{array}
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+记为$T_n$，其中$n$表示等分数。
+}
+
+\frame{
+\frametitle{复化梯形求积公式的求积分算法}
+\begin{block}{}
+\begin{itemize}
+\item 输入$a$,$b$和$n$,
+\vspace{3mm}
+\item $h = \frac{b-a}{n}$
+\vspace{3mm}
+\item Loop :
+\begin{itemize}
+\item $sum = 0$
+\vspace{3mm}
+\item 对 $k = 1, 2, \cdots, n-1$做
+\vspace{3mm}
+\item $sum = sum + f(a + k h)$
+\end{itemize}
+\vspace{3mm}
+\item $T = \frac{h}{2} [f(a) + f(b) + 2 \ast sum]$
+\vspace{3mm}
+\item 输出$T$
+\end{itemize}
+\end{block}
+}
+
+\frame{
+\begin{block}{定理}
+若$f(x) \in C^2 [a, b]$， 则对复化梯形求积公式$T_n$有
+\begin{equation*}
+\int_a^b f(x) dx - T_n = - \frac{b-a}{12} h^2 f''(\eta)
+\end{equation*}
+其中$h = \frac{b-a}{n}$，$a \le \eta \le b$
+\end{block}
+定理证明：\\ 
+把积分区间$[a, b]$进行$n$等分，得到分点$x_0$, $x_1$, $\cdots$, $x_k$, $\cdots$, $x_n$。
+\begin{center}
+$\Downarrow$
+\end{center}
+因此得到$n$个小区间$[x_0, x_1]$, $[x_1, x_2]$, $\cdots$, $[x_{n-1}, x_n]$。
+}
+
+\frame{
+\begin{center}
+$\Downarrow$
+\end{center}
+在这些小区间上直接使用梯形求积公式的误差估计式，可得：
+\begin{equation*}
+\begin{array}{l c l}
+\int_a^b f(x) d x -T_n & = & \sum_{k=0}^{n-1} \left\{ \int_{x_k}^{x_{k+1}} f(x) dx -\frac{h}{2} \left[ f(x_k) + f(x_{k+1}) \right] \right\} \\
+&  & \\
+& = & -\frac{h^3}{12} \sum_{k=0}^{n-1} f''(\eta_k) \\
+\end{array}
+\end{equation*}
+其中$x_k \le \eta_k \le x_{k+1}$
+\begin{center}
+$\Downarrow$
+\end{center}
+由$ f''(x) $在$[a, b]$上连续，根据连续函数的性质可知，在$[a, b]$中存在一点$\eta$，使
+\begin{equation*}
+\frac{1}{n} \sum_{k=0}^{n-1} f''(\eta_k) = f''(\eta)
+\end{equation*}
+}
+
+\frame{
+\begin{center}
+$\Downarrow$
+\end{center}
+因此，得到复化梯形求积公式的误差估计为
+\begin{equation*}
+\int_a^b f(x) dx - T_n = -\frac{nh^3}{12} f''(\eta) = -\frac{b-a}{12} h^2 f''(\eta)
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+当使用复化梯形求积公式求积分时，有时可以使用他们的误差估计式判断$n$应取多大才能满足给定的精度要求。
+\begin{center}
+$\Downarrow$
+\end{center}
+就是把积分区间$[a, b]$划分多少等分才能满足给定的积分精度要求。
+}
+
+
+
+\frame{
+\begin{block}{定理}
+积分近似值$T_n$与$T_{2n}$有如下关系：
+\begin{equation*}
+ T_{2n} = \frac{1}{2} \left[ T_n + h \sum_{k=1}^n f \left( a + (2k-1) \frac{b-a}{2n} \right) \right]
+\end{equation*}
+其中$h = \frac{b-a}{n}$
+\end{block}
+定理证明：\\ 
+把积分区间$[a, b]$进行$2n$等分，
+\begin{center}
+$\Downarrow$
+\end{center}
+实际上是在将区间$[a, b]$进行$n$等分的基础之上，
+对每个小区间$[x_k, x_{k+1}]$再平分一次，
+亦即在每个小区间$[x_k, x_{k+1}]$上插入一个中点。
+\begin{center}
+$\Downarrow$
+\end{center}
+}
+
+\frame{
+记该中点为$x_{k + \frac{1}{2}}$，则$x_{k + \frac{1}{2}} = x_k + \frac{h}{2} = a + \left( k + \frac{1}{2} \right) h$，
+其中$k = 0$, $1$, $2$, $\cdots$, $n-1$
+\begin{center}
+$\Downarrow$
+\end{center}
+从而有
+\begin{equation*} 
+\begin{array}{l l}
+\int_a^b f(x) d x & = \sum\limits_{k=0}^{n-1} \int_{x_k}^{x_{k+1}} f(x) dx = \sum\limits_{k=0}^{n-1} \left[ \int_{x_k}^{x_{k+\frac{1}{2}}} f(x) dx + \int_{x_{k + \frac{1}{2}}}^{x_{k+1}} f(x) dx \right] \\
+& \\
+& \approx  \sum\limits_{k=0}^{n-1} \left\{ \frac{x_{k+\frac{1}{2}} - x_k}{2} \left[ f(x_k) + f(x_{k+\frac{1}{2}})\right] + \frac{x_{k+1} -x_{k+ \frac{1}{2}} }{2} \left[  f(x_{k+\frac{1}{2}}) + f(x_{k+1})\right]\right\} \\
+& \\
+& = \frac{h}{4} \sum\limits_{k=0}^{n-1} \left[ f(x_k) + 2 f(x_{k + \frac{1}{2}}) + f(x_{k+1})\right] \\
+& \\
+& = \frac{1}{2} \left[ T_n + h \sum\limits_{k=0}^{n-1} f(x_{k + \frac{1}{2}}) \right]\\
+\end{array}
+\end{equation*}
+}
+
+\frame{
+\begin{center}
+$\Downarrow$
+\end{center}
+\begin{equation*} 
+\begin{array}{l l}
+& = \frac{1}{2} \left[ T_n + h \sum\limits_{k=0}^{n-1} f\left(a + \left( k - 1 + \frac{1}{2} \right) h \right) \right] \\
+& \\
+& = \frac{1}{2} \left[ T_n + h \sum\limits_{k=0}^{n-1} f\left(a + \left( 2k - 1 \right)  \frac{b-a}{2n} \right) \right] \\
+\end{array}
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+从而可得
+\begin{block}{}
+\begin{equation*}
+T_{2n} =  \frac{1}{2} \left[ T_n + h \sum\limits_{k=1}^{n} f\left( a + \left( 2k - 1 \right)  \frac{b-a}{2n} \right) \right]
+\end{equation*}
+\end{block}
+}
+
+\frame{
+\frametitle{复化Simpson求积公式}
+把积分区间$[a, b]$进行$n$等分，$n$为偶数，不妨设$n = 2m$ ($m = 1$, $2$, $\cdots$)，
+则分点为$x_0$, $x_1$, $\cdots$, $x_k$, $\cdots$, $x_{2m}$，
+其中$x_k$ $=$ $a$ $+$ $k h$；$k$ $=$ $0$, $1$, $\cdots$, $2m$；$h = (b-a) \slash n$。 \\
+使用这些分点把区间$[a, b]$分为$m$个小区间$[x_0, x_2]$, $[x_2, x_4]$, $\cdots$, $[x_{2(m-1)}$, $x_{2m}]$。
+根据定积分的性质和求积公式可得：
+\begin{equation*}
+\begin{array}{l l}
+\int_{x_{2(k-1)}}^{x_{2k}} f(x) dx & = \int_{x_{2k-2}}^{x_{2k}} f(x) dx \\
+& \\
+& \approx \frac{x_{2k} -x_{2k-2}}{6} \left[ f(x_{2k-2}) + 4 f(x_{2k-1}) + f(x_{2k}) \right] \\
+& \\
+& = \frac{h}{3} \left[ f(x_{2k-2}) + 4 f(x_{2k-1}) + f(x_{2k}) \right]\\
+\end{array}
+\end{equation*}
+}
+
+
+\frame{
+从而有
+\begin{equation*}
+\begin{array}{l l}
+\int_a^b f(x) dx & = \int_{x_0}^{x_2} f(x) dx + \int_{x_2}^{x_4} f(x) dx + \cdots + \int_{x_{2 (m-1)}}^{x_{2m}} f(x) dx \\
+& \\
+& = \sum\limits_{k=1}^m \int_{x_{2(k-1)}}^{x_{2k}} f(x) dx \\
+& \\
+& \approx \sum\limits_{k=1}^m  \frac{h}{3} \left[ f(x_{2k-2}) + 4 f(x_{2k-1}) + f(x_{2k}) \right]\\
+& \\
+& = \frac{h}{3} \left[ f(x_0) + \sum\limits_{k=2}^m f(x_{2k-2}) + 4 \sum\limits_{k=2}^m f(x_{2k-1}) + \sum\limits_{k=2}^{m-1} f(x_{2k}) + f(x_{2m}) \right] \\
+& \\
+& = \frac{h}{3} \left[  f(a) + f(b) + 4 \sum\limits_{k=1}^m f(x_{2k-1}) + 2 \sum\limits_{k=1}^{m-1} f(x_{2k}) \right] \\
+\end{array}
+\end{equation*}
+上式为复化Simpson求积公式或复化抛物线求积公式，记为$S_n$，其中$n$为等分数。
+}
+
+\frame{
+\begin{block}{定理}
+若$f(x) \in C^4 [a, b]$，则对复化Simpson求积公式$S_n$有
+\begin{equation*}
+\int_a^b f(x) dx -S_n = -\frac{b-a}{2880} (2h)^4 f^{(4)} (\eta)
+\end{equation*}
+其中$h=\frac{b-a}{n}$，$a \le \eta \le b$
+\end{block}
+定理证明：\\ 
+把积分区间$[a, b]$进行$2n$等分，
+实际上是在将区间$[a, b]$进行$n$等分的基础之上，
+其中$n=2m$($m=1$, $2$, $\cdots$)，
+则分点为$x_0$, $x_1$, $\cdots$, $x_k$, $\cdots$, $x_{2m}$
+\begin{center}
+$\Downarrow$
+\end{center}
+因此得到$m$个小区间$[x_0, x_2]$, $[x_2, x_4]$, $\cdots$, $[x_{2(m-1)}, x_{2m}]$。
+}
+
+\frame{
+\begin{center}
+$\Downarrow$
+\end{center}
+在每个小区间$[x_{2(k-1)}, x_{2k}]$($k = 1$, $2$, $\cdots$, $m$)上采用Simpson求积公式的误差估计式可得：
+\begin{equation*}
+\begin{array}{l}
+\int_a^b f(x) dx  - S_n = \\ \\
+\hspace{10mm} \sum\limits_{k=1}^m \left\{ \int_{x_{2(k-1)}}^{x_{2k}} f(x) dx - \frac{x_{2k}-x_{2k-2}}{3} \left[ f(x_{2k-2}) + 4 f(x_{2k-1}) + f(x_{2k}) \right] \right\} \\ \\
+\hspace{5mm} = -\frac{(2h)^5}{2880} \sum\limits_{k=1}^m f^{(4)} (\eta_k)
+\end{array}
+\end{equation*}
+其中$x_{2k-2} \le \eta_k \le x_{2k}$
+\begin{center}
+$\Downarrow$
+\end{center}
+}
+
+\frame{
+由于$f''(x)$在$[a, b]$上连续，根据连续函数的性质，在$[a, b]$中存在一点$\eta$
+\begin{equation*}
+\frac{1}{m} \sum\limits_{k=1}^m f^{(4)} (\eta_k) = f^{(4)} (\eta) 
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+由此可得到复化Simpson求积公式的误差估计式
+\begin{equation*}
+\int_a^b f(x) dx -S_n = -\frac{b-a}{2880} (2h)^4 f^{(4)} (\eta)
+\end{equation*}
+}
+
+\frame{
+\frametitle{复化Simpson求积公式的求积分算法}
+\begin{block}{}
+\begin{itemize}
+\item 输入$a$,$b$和$n$,
+\vspace{3mm}
+\item $h = \frac{b-a}{n}$
+\vspace{3mm}
+\item $S_1 = 0$，$S_2 = 0$
+\vspace{3mm}
+\begin{itemize}
+\item 对 $k = 1, 2, \cdots, m$做
+\vspace{3mm}
+\item $S_1 = S_1 + f( a + (2 \ast k - 1) \ast h)$
+\vspace{3mm}
+\item 对 $k = 1, 2, \cdots, m-1$做
+\vspace{3mm}
+\item $S_2 = S_2 + f( a + 2 \ast k \ast h)$
+\end{itemize}
+\vspace{3mm}
+\item 计算$S = \frac{h}{3} [f(a) + f(b) + 4 \ast S_1 + 2 \ast S_2]$
+\vspace{3mm}
+\item 输出$S$
+\end{itemize}
+\end{block}
+}
+
+
+
+%%%%%%%%%%%
+
+\subsection{自动选取步长梯形法}
+
+\frame{
+在使用复化梯形求积分公式之前必须要选定$n$
+\begin{center}
+$\Downarrow$
+\end{center}
+对复化梯形求积公式的误差估计式的两边求绝对值可得：
+\begin{equation*}
+\left| \int_a^b f(x) dx - T_n  \right|
+= \frac{b-a}{12} h^2 | f''(\eta) |
+\le \frac{b-a}{12} h^2 \max_{a \le x \le b} |f''(x)|
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+\begin{itemize}
+\item 如果$n$取的太大 $\Rightarrow$ 复化梯形求积公式与积分精确值的误差变得很小$\Rightarrow$ 计算量增大。
+\item 如果$n$取的太小 $\Rightarrow$ 复化梯形求积公式与积分精确值的误差变得很大$\Rightarrow$ 精度难以保证。
+\end{itemize}
+}
+
+\frame{
+如何选择$n$使的积分近似值满足精度要求？
+\vspace{5mm}
+\begin{center}
+$\Downarrow$
+\end{center}
+\vspace{5mm}
+\begin{block}{}
+{\Huge 为了避免盲目选取$n$，可以使用自动选取步长梯形法。}
+\end{block}
+}
+
+\frame{
+反复利用公式：
+\begin{equation*}
+ T_{2n} = \frac{1}{2} \left[ T_n + h \sum_{k=1}^n f \left( a + (2k-1) \frac{b-a}{2n} \right) \right]
+\end{equation*}
+其中$h = \frac{b-a}{n}$
+\begin{center}
+$\Downarrow$
+\end{center}
+\begin{equation*}
+\int_a^b f(x) dx - T_n = - \frac{b-a}{12} h^2 f'' (\eta_n) \hspace{5mm} (a \le  \eta_n \le b) 
+\end{equation*}
+和
+\begin{equation*}
+\int_a^b f(x) dx - T_{2n} = - \frac{b-a}{12} \left( \frac{h}{2} \right)^2 f'' (\eta_{2n})  \hspace{5mm} (a \le  \eta_{n2} \le b)
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+}
+
+\frame{
+\begin{equation*}
+ T_{2n} - T_n = - \frac{b-a}{12} \left( \frac{h}{2} \right)^2 \left[ 4 f'' (\eta_{n}) -f'' (\eta_{2n})  \right] 
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+当$f''(x)$在$[a, b]$上连续，并假设$n$充分大时，$f''(\eta_n) \approx f''(\eta_{2n})$，则有
+\begin{equation*}
+\frac{1}{3} \left( T_{2n} - T_n \right) \approx \int_a^b f(x) dx - T_{2n}
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+因此，假如给定一个精度$\varepsilon$，
+要求
+\begin{equation*}
+\left| \int_a^b f(x) dx - T_{2n} \right| < \varepsilon
+\end{equation*}
+则可以用$| T_{2n} - T_n | < 3\varepsilon $来判断$T_{2n}$是否满足精度要求。
+}
+
+\frame{
+\frametitle{自动选取步长梯形法的步骤(I)}
+\begin{itemize}
+\item 先用梯形求积公式计算出积分的第一次近似值
+\begin{equation*}
+T_1 = \frac{b-a}{2} \left[ f(a) + f(b) \right]
+\end{equation*}
+\item 把积分区间$[a, b]$进行2等分，并用复化梯形求积分公式求出积分的第二次近似值
+\begin{equation*}
+\begin{array}{l l}
+T_2 & =  \frac{1}{2} \left[ T_1 + (b-a) \sum\limits_{k=1}^1 f\left( a + (2k-1) \frac{b-a}{2}\right) \right] \\
+& \\
+& = \frac{T_1}{2} + \frac{b-a}{2} f \left( a + \frac{b-a}{2}\right)
+\end{array}
+\end{equation*}
+判断$|T_2 - T_1| < 3 \varepsilon$是否成立：若成立则停止计算，$T_2$作为积分近似值；否则，进行下一步的计算
+\end{itemize}
+}
+
+\frame{
+\frametitle{自动选取步长梯形法的步骤(II)}
+\begin{itemize}
+\item  把积分区间$[a, b]$进行4等分，并用复化梯形求积分公式求出积分的第三次近似值
+\begin{equation*}
+\begin{array}{l l}
+T_4 & =  \frac{1}{2} \left[ T_2 + \frac{b-a}{2} \sum\limits_{k=1}^2 f\left( a + (2k-1) \frac{b-a}{4}\right) \right] \\
+& \\
+& = \frac{T_2}{2} + \frac{b-a}{4}  \sum\limits_{k=1}^2 f \left( a + (2k-1) \frac{b-a}{4}\right)
+\end{array}
+\end{equation*}
+判断$|T_4 - T_2| < 3 \varepsilon$是否成立：若成立则停止计算，$T_4$作为积分近似值；否则，进行下一步的计算
+\end{itemize}
+}
+
+\frame{
+\frametitle{自动选取步长梯形法的步骤(III)}
+\begin{itemize}
+\item  把积分区间$[a, b]$进行8等分，并用复化梯形求积分公式求出积分的第四次近似值
+\begin{equation*}
+\begin{array}{l l}
+T_8 & =  \frac{1}{2} \left[ T_4 + \frac{b-a}{4} \sum\limits_{k=1}^4 f\left( a + (2k-1) \frac{b-a}{8}\right) \right] \\
+& \\
+& = \frac{T_4}{2} + \frac{b-a}{8}  \sum\limits_{k=1}^4 f \left( a + (2k-1) \frac{b-a}{8}\right)
+\end{array}
+\end{equation*}
+判断$|T_8 - T_4| < 3 \varepsilon$是否成立：若成立则停止计算，$T_8$作为积分近似值；否则，进行下一步的计算
+\item $\cdots$
+\item 这样一直迭代下去，直到$|T_{2n} - T_n| < 3 \varepsilon$成立为止，
+即$T_{2n}$满足精度 $\varepsilon$要求的积分近似值。
+\end{itemize}
+}
+
+\frame{
+\frametitle{自动选取步长梯形法算法}
+\begin{block}{}
+\begin{itemize}
+\item $S_1$ : 输入$a$,$b$和$\varepsilon$
+\vspace{3mm}
+\item $S_2$ : $h = \frac{b-a}{2}$， $T_1 = (f(a) + f(b)) \times h$， $n=1$
+\vspace{3mm}
+\item $S_3$ : 计算$T_0 = T_1$，$S = 0$（$T_0$表示前次积分近似值，$T_1$表示后次积分近似值）
+\vspace{3mm}
+\item $S_4$ : 对 $k = 1, 2, \cdots, n$，计算
+\begin{equation*}
+S = S + f \left( a + (2k-1) \times \frac{h}{n} \right)
+\end{equation*}
+\item $S_5$ : $T-1 = \frac{T_0}{2} + S \times \frac{h}{n}$
+\vspace{3mm}
+\item $S_6$ : 若$|T_1 - T_0| < \varepsilon$，输出$T_1$的值，计算结束。否则，$n = 2 n$，返回$S_3$
+\end{itemize}
+\end{block}
+}
+
+
+
+%%%%%%%%%%%
+
+\subsection{Richardson外推算法}
+
+\frame{
+假设有一个量$F^{\ast}$，可以是函数，微分，积分等。
+\begin{center}
+$\Downarrow$
+\end{center}
+现用一个步长$h$为变量的函数$F_0(h)$来近似代替，且$F^{\ast}$与$F_0(h)$无关，
+且给定$F^{\ast}$与$F_0(h)$的误差估计为：
+\begin{equation*}
+F^{\ast} - F_0(h) = a_1 h^{p_1} + a_2 h^{p_2} + \cdots + a_k h^{p_k} + \cdots
+\end{equation*}
+其中$0 < p_1 < p_2 < \cdots < p_k < \cdots$；$a_k \neq 0$ （$k = 1, 2, \cdots$）是与$h$无关的常数。
+\begin{center}
+$\Downarrow$
+\end{center}
+当$h$适当小时，第一项$ a_1 h^{p_1}$的绝对值远比后面的项的绝对值大。
+而第一项之中的$h^{p_1}$是最重要的，它对误差的影响最大。
+%$\Rightarrow$
+通常称为$F^{\ast}$与$F_0(h)$的误差的阶。
+}
+
+\frame{
+\begin{center}
+$\Downarrow$
+\end{center}
+当$h$适当小时，误差的阶$h^{p_1}$中的幂$p_1$越大，$F^{\ast}$与$F_0(h)$的误差的绝对值就会越小。
+\begin{center}
+$\Downarrow$
+\end{center}
+从函数$F_0(h)$出发构造一个新的函数近似替代$F^{\ast}$，使$F^{\ast}$与这个函数的误差阶的幂比$F^{\ast}$与$F_0(h)$的误差阶的幂更高一些。
+\begin{center}
+$\Downarrow$
+\end{center}
+把上式$F^{\ast} - F_0(h) $中的$h$用$qh$代替，可得
+\begin{equation*}
+F^{\ast} - F_0(qh) = a_1 (qh)^{p_1} + a_2 (qh)^{p_2} + \cdots + a_k (qh)^{p_k} + \cdots
+\end{equation*}
+其中$q$为常数，并满足$1 - q^{p_1} \neq 0$
+\begin{center}
+$\Downarrow$
+\end{center}
+}
+
+\frame{
+用$q^{p_1}$乘以$F^{\ast} - F_0(h)$式两边可得
+\begin{equation*}
+q^{p_1} F^{\ast} - q^{p_1} F_0(h) = a_1 (qh)^{p_1} + a_2 q^{p_1} (qh)^{p_2} + \cdots + a_k q^{p_1} (qh)^{p_k} + \cdots
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+用$F^{\ast} - F_0(qh)$减去 $q^{p_1} F^{\ast} - q^{p_1} F_0(h)$并整理后可得：
+\begin{equation*}
+\begin{array}{l}
+(1 -q^{p_1})F^{\ast} - \left[ F_0 (qh) - q^{p_1} F_0(h) \right]  \\
+= a_2 (q^{p_2} - q^{p_1}) h^{p_2} + a_3 (q^{p_3} - q^{p_1}) h^{p_3} + \cdots + a_k (q^{p_k} - q^{p_1}) h^{p_k} + \cdots
+\end{array}
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+用$1-q^{p_1}$除以上式的两边可得：
+\begin{equation*}
+\begin{array}{l}
+F^{\ast} - \frac{ F_0 (qh) - q^{p_1} F_0(h) }{1 -q^{p_1}}  \\
+= \frac{a_2 ( q^{p_2} -q^{p_1} ) h^{p_2}}{1 -q^{p_1}} + \frac{a_3 (q^{p_3} - q^{p_1}) h^{p_3}}{1 -q^{p_1}} + \cdots + \frac{a_k (q^{p_k} - q^{p_1}) h^{p_k}}{1 -q^{p_1}} + \cdots
+\end{array}
+\end{equation*}
+}
+
+\frame{
+\begin{center}
+$\Downarrow$
+\end{center}
+若记$F_1(h) = \frac{ F_0 (qh) - q^{p_1} F_0(h) }{1 -q^{p_1}}$和
+$a_k^{(1)} = \frac{a_k (q^{p_k} - q^{p_1}) h^{p_k}}{1 -q^{p_1}}$，
+$k = 2, 3, \cdots$
+则上式可转换为：
+\begin{equation*}
+F^{\ast} - F_1(h) = a_2^{(1)} h^{p_2} + a_3^{(1)} h^{p_3} + \cdots + a_k^{(1)} h^{p_k} + \cdots
+\end{equation*}
+其中$a_k^{(1)}$与$h$无关的常数。
+\begin{center}
+$\Downarrow$
+\end{center}
+若用函数$F_1(h)$近似代替$F^{\ast}$，则$F_1(h)$与$F^{\ast}$误差的阶为$h^{p_2}$。
+\begin{center}
+$\Downarrow$
+\end{center}
+因为$p_1 < p_2$，因此只要$h$适当小，$F_1(h)$与$F^{\ast}$的误差的绝对值比$F_0(h)$与$F^{\ast}$的误差绝对值要小。
+}
+
+\frame{
+有了$F_1(h)$之后，再从这个函数出发，构造出一个新函数$F_2(h)$近似代替$F^{\ast}$，使得$F^{\ast}$与这个函数的误差的阶的幂比$F^{\ast}$与函数$F_1(h)$的误差的阶的幂更高一些，具体如上述做法类似：
+\begin{equation*}
+F^{\ast} - F_2(h) = a_3^{(2)} h^{p_3} + a_4^{(2)} h^{p_4} + \cdots + a_k^{(2)} h^{p_k} + \cdots
+\end{equation*}
+其中 $F_2(h) = \frac{ F_1 (qh) - q^{p_2} F_1(h) }{1 -q^{p_2}}$和
+$a_k^{(2)} = \frac{a_k (q^{p_k} - q^{p_2}) h^{p_k}}{1 -q^{p_2}}$，
+$k = 3, 4, \cdots$是与$h$无关的常数。
+\begin{center}
+$\Downarrow$
+\end{center}
+若用函数$F_2(h)$近似代替$F^{\ast}$，则$F_2(h)$与$F^{\ast}$误差的阶为$h^{p_3}$。
+\begin{center}
+$\Downarrow$
+\end{center}
+因为$p_2 < p_3$，因此只要$h$适当小，$F_2(h)$与$F^{\ast}$的误差的绝对值比$F_1(h)$与$F^{\ast}$的误差绝对值要小。
+}
+
+\frame{
+依次类推，就可以构造出一系列的函数$F_0(h)$，$F_1(h)$，$F_2(h)$，$\cdots$。
+\begin{center}
+$\Downarrow$
+\end{center}
+当$h$适当小时，$F^{\ast}$与这些函数的误差的绝对值一个比一个小。
+函数的基本形式：
+\begin{equation*}
+F_m (h) = \frac{F_{m-1}(qh) - q^{p_m} F_{m-1}(h)}{1-q^{p_m}} \hspace{5mm} (m = 1, 2, \cdots )
+\end{equation*}
+其中$q$为常数，并满足$1-q^{p_m} \neq 0$
+\begin{center}
+$\Downarrow$
+\end{center}
+Richardson外推算法，可以用归纳法证明：
+\begin{equation*}
+F^{\ast} - F_m(h)  = a_{m+1}^{(m)} h^{p_{m+1}} + a_{m+2}^{(m)} h^{p_{m+2}} + \cdots + a_k^{(m)} h^{p_k} + \cdots
+\end{equation*}
+其中 
+$a_k^{(m)} = \frac{a_k^{(m-1)} (q^{p_k} - q^{p_m}) }{1 -q^{p_m}}$，
+$k = m+1, m+2, \cdots$是与$h$无关的常数。
+}
+
+

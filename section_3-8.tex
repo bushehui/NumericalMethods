@@ -1,0 +1,275 @@
+\subsection{数值微分}
+
+
+\frame{
+\begin{block}{在微积分之中，函数的导数(Derivative)是由极限来定义的\footnote{当自变量$x$的增量趋于零时，因变量$f(x)$的增量与自变量(x)的增量之商的极限}：}
+若$f(x)$在点$x_0$的某个邻域内有定义，则当自变量$x$在$x_0$处取得增量$\Delta x$(点$x_0$$+$$\Delta x$仍在该邻域内)时，
+相应地函数$y$取得增量$\Delta y$ $=$ $f(x_0 + \Delta x)$ $-$ $f(x_0)$；
+如果当$\Delta x\to 0$时，$\Delta y$与$\Delta x$之比的极限存在，则称函数$y=f(x)$在点$x_0$处可导，
+并称这个极限为函数$y=f(x)$在点$x_0$处的导数，记为$f'(x_0)$，
+\begin{equation*}
+f'(x_0)=\lim_{\Delta x \to 0}\frac{\Delta y}{\Delta x}=\lim_{\Delta x \to 0}\frac{f(x_0+\Delta x)-f(x_0)}{\Delta x}
+\end{equation*}
+也可记作 $y^\prime (x_0)$、$\left.\frac{\mathrm{d}y}{\mathrm{d}x}\right|_{x=x_0}$、$\frac{\mathrm{d}f}{\mathrm{d}x}(x_0)$或$\left.\frac{\mathrm{d}f}{\mathrm{d}x}\right|_{x=x_0}$
+\end{block}
+}
+
+\frame{
+微分也是一种线性描述函数在一点附近变化的方式\footnote{微分和导数是两个不同的概念}。
+\begin{center}
+$\Downarrow$
+\end{center}
+但是，对一元函数来说，可微与可导是完全等价的。
+\begin{center}
+$\Downarrow$
+\end{center}
+可微的函数，其微分等于导数乘以自变量的微分$\mathrm{d}x$，
+换句话说，函数的微分与自变量的微分之商等于该函数的导数\footnote{导数也叫做微商}。
+\begin{center}
+$\Downarrow$
+\end{center}
+函数$y = f(x)$的微分又可记作
+\begin{equation*}
+\mathrm{d}y = f'(x)\mathrm{d}x
+\end{equation*}
+}
+
+\frame{
+对由数学表达式所表示的函数，可以使用函数求导公式把导数求出。
+\begin{center}
+$\Downarrow$
+\end{center}
+若函数是由函数表格来表示的时候
+\begin{table}
+\begin{tabular}{| c | c | c | c |}
+\hline
+$x$ & $x_0$ & $\cdots$ & $x_n$ \\
+\hline
+$y = f(x)$ & $y_0$ & $\cdots$ & $y_n$ \\
+\hline
+\end{tabular}
+\end{table}
+不能用函数求导公式来求函数导数，只能采用近似方法。
+\begin{center}
+$\Downarrow$
+\end{center}
+常用的数值微分方法是基于插值函数的。
+}
+
+
+
+\frame{
+\frametitle{使用$n$次插值函数求导数}
+给定函数$f(x)$的数据表，可以构造一个$n$次插值函数$P_n(x)$来近似代替$f(x)$，即
+\begin{equation*}
+f(x) \approx P_n(x)
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+对上式两边求导，可得：
+\begin{equation*}
+f'(x) \approx P'_n(x)
+\end{equation*}
+
+}
+
+
+\frame{
+由$f(x)$与$P_n(x)$的误差估计
+\begin{equation*}
+R(x) = f(x) - P_n(x) = \frac{f^{(n+1)}(\xi)}{(n+1)!} \omega(x)
+\end{equation*}
+其中，$\xi \in [a, b]$；$\omega(x) = (x - x_0) (x - x_1) \cdots (x - x_n)$。
+\begin{center}
+$\Downarrow$
+\end{center}
+对上式两边求导可得$f'(x)$与$P'_n(x)$误差估计
+\begin{equation*}
+R'(x) = f'(x) - P'_n(x) = \frac{f^{(n+1)}(\xi)}{(n+1)!} \omega'(x) + \frac{\omega(x)}{(n+1)!} \frac{\mathrm{d}}{\mathrm{d}x} f^{(n+1)}(\xi)
+\end{equation*}
+其中，由于$\xi$是$x$的未知函数，所以无法对$\frac{\mathrm{d}}{\mathrm{d}x} f^{(n+1)}(\xi)$做进一步的估计。
+}
+
+\frame{
+如果只考虑节点$x_k$处的导数，并注意到$\omega(x_k) = 0$，则
+\begin{equation*}
+R'(x) = f'(x) - P'_n(x) = \frac{f^{(n+1)}(\xi)}{(n+1)!} \omega'(x)
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+由上述原因，所以接下来的内容只讨论节点$x_k$处的导数。
+为了简单期间，我们可以假定给出的节点是等间距的，并把这个距离记为$h$。
+}
+
+
+\frame{
+\frametitle{两点公式}
+根据给定的两点$(x_0, y_0)$，$(x_1, y_1)$可以构造一个线性插值函数
+\begin{equation*}
+P_1(x) = \frac{x-x_1}{x_0-x_1} y_0 + \frac{x-x_0}{x_1-x_0} y_1 
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+对上式两边求导，并注意到$h = x_1 - x_0$，则可以得到
+\begin{equation*}
+P'_1(x) = \frac{1}{h}( y_1 - y_0) 
+\end{equation*}
+}
+
+\frame{
+有此可得：
+\begin{equation*}
+P'_1(x_0) = \frac{1}{h}( y_1 - y_0) 
+\end{equation*}
+\begin{equation*}
+P'_1(x_1)) = \frac{1}{h}( y_1 - y_0) 
+\end{equation*}
+并有如下的误差估计式：
+\begin{equation*}
+R'(x_0) = f'(x_0) - P'_1(x_0) = \frac{f^{(2)}(\xi_0)}{2!} (x_0 - x_1) = - \frac{h}{2} f^{(2)} (  \xi_0) \ \ (x_0 < \xi_0 < x_1)
+\end{equation*}
+\begin{equation*}
+R'(x_1) = f'(x_1) - P'_1(x_1) = \frac{f^{(2)}(\xi_1)}{2!} (x_1 - x_0) = - \frac{h}{2} f^{(2)} (  \xi_1) \ \ (x_0 < \xi_1 < x_1) 
+\end{equation*}
+}
+
+
+
+\frame{
+\frametitle{三点公式}
+根据给定的三点$(x_0, y_0)$，$(x_1, y_1)$，$(x_2, y_2)$可以构造一个二次插值函数
+\begin{equation*}
+P_2(x) = \frac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)} y_0 + \frac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)} y_1  + \frac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)} y_2
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+对上式两边求导，可得
+\begin{equation*}
+P'_2(x) = \frac{2x - x_1 - x_2}{(x_0-x_1)(x_0-x_2)} y_0 + \frac{2x - x_0 - x_2}{(x_1-x_0)(x_1-x_2)} y_1  + \frac{2x - x_0 - x_1}{(x_2-x_0)(x_2 - x_1)} y_2
+\end{equation*}
+}
+
+\frame{
+有此可得：
+\begin{equation*}
+P'_2(x_0) = \frac{1}{2h}(-3 y_0 +  4 y_1 - y_2) 
+\end{equation*}
+\begin{equation*}
+P'_2(x_1)) = \frac{1}{2h}( - y_0 + y_2) 
+\end{equation*}
+\begin{equation*}
+P'_2(x_2)) = \frac{1}{2h}( y_0 - 4 y_1 + 3 y_2) 
+\end{equation*}
+并有如下的误差估计式：
+\begin{equation*}
+R'(x_0) = f'(x_0) - P'_2(x_0) = \frac{f^{(3)}(\xi_0)}{3} h^2  \ \ (x_0 < \xi_0 < x_2)
+\end{equation*}
+\begin{equation*}
+R'(x_1) = f'(x_1) - P'_2(x_1) = \frac{f^{(3)}(\xi_1)}{6} h^2  \ \ (x_0 < \xi_1 < x_2) 
+\end{equation*}
+\begin{equation*}
+R'(x_2) = f'(x_1) - P'_2(x_2) = \frac{f^{(3)}(\xi_2)}{3} h^2  \ \ (x_0 < \xi_2 < x_2) 
+\end{equation*}
+}
+
+
+\frame{
+\frametitle{$h$与精度}
+\begin{block}{}
+从上述的微分公式以及误差估计式来开，似乎$h$越小精度就越高？
+\end{block}
+\begin{center}
+$\Downarrow$
+\end{center}
+\begin{block}{}
+在实际计算之中，截断误差只是误差的一部分，还有舍入误差。
+而数值微分对舍入误差比较敏感，有时候因为$h$的减小而增大。
+\end{block}
+\begin{center}
+$\Downarrow$
+\end{center}
+\begin{block}{}
+在使用$n$次插值求导数时，要注意对误差进行分析
+\end{block}
+}
+
+
+
+
+\frame{
+\frametitle{使用$３$次样条插值函数求导数}
+由三次样条插值可知，我们可以构造一个函数$S(x)$来近似替代函数$f(x)$
+\begin{equation*}
+f(x) \approx S(x)
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+函数$f(x)$在区间$[x_i, x_{i+1}]$ ($i = 0, 1, \ldots, n-1$ )上的表达式为：
+\begin{equation*}
+\begin{array}{l l}
+S(x)   =  & \left( 1 + 2 \frac{x - x_i}{h_i} \right) \frac{(x - x_{i+1})^2}{h_i^2} y_i   +  \left( 1 - 2 \frac{x - x_{i+1}}{h_i} \right) \frac{(x - x_i)^2}{h_i^2} y_{i+1} \\
+& \\
+ & + (x -x_i) \frac{(x - x_{i+1})^2}{h_i^2} m_i +  (x -x_{i+1}) \frac{(x - x_i)^2}{h_i^2} m_{i+1} \\
+\end{array}
+\end{equation*}
+
+}
+
+
+
+\frame{
+对$S(x)$求导，可得：
+\begin{equation*}
+f'(x) \approx S'(x)
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+\begin{equation*}
+\begin{array}{l l}
+S'(x) = & \frac{6}{h_i^2} \left[ \frac{1}{h_i} (x - x_{i+1})^2 + (x -x_{i+1}) \right] y_i+ \\
+& \\
+& \frac{6}{h_i^2} \left[  (x -x_i) - \frac{1}{h_i} (x - x_i)^2 \right] y_{i+1} + \\
+& \\
+& \frac{1}{h_i} \left[ \frac{3}{h_i} (x - x_{i+1})^2 + 2 (x - x_{i+1})  \right] m_i -\\
+& \\
+& \frac{1}{h_i} \left[ 2 (x - x_i) - \frac{3}{h_i} (x - x_i)^2  \right] m_{i+1} \\
+\end{array}
+\end{equation*}
+若只求函数$f(x)$在节点$x_i$ ($i=0, 1, \ldots, n$)处的导数，则有$f'(x_i) = m_i$。
+}
+
+\frame{
+如果要求二阶导数$f''(x)$，则可以对一介导数函数继续求导
+\begin{equation*}
+\begin{array}{l l}
+S''(x) = & \frac{6}{h_i^2} \left[ 1 + \frac{2}{h_i} (x - x_{i+1}) \right] y_i + \frac{6}{h_i^2} \left[  1 - \frac{2}{h_i} (x - x_i) \right] y_{i+1} \\
+& \\
+& +  \frac{1}{h_i} \left[ \frac{3}{h_i} (x - x_{i+1})^2 + 1  \right] m_i - \frac{2}{h_i} \left[ 1 - \frac{3}{h_i} (x - x_i)  \right] m_{i+1} \\
+\end{array}
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+又可得到近似公式：
+\begin{equation*}
+f''(x) \approx S''(x)
+\end{equation*}
+
+\begin{block}{}
+当
+\begin{equation*}
+h = \max_{0 \le i \le n-1} |x_{i+1} - x_i | \to 0
+\end{equation*}
+$S(x)$，$S'(x)$，$S''(x)$分别收敛于$f(x)$，$f'(x)$，$f''(x)$。
+
+存在的缺点就：
+当$h$较小时，解方程组的运算量往往很大。
+\end{block}
+}
+

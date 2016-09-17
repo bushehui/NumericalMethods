@@ -1,0 +1,232 @@
+\subsection{Upper-Triangular Linear Systems}
+
+
+\frame{
+\begin{itemize}
+\item We will now develop the {\Large  back-substitution algorithm},  which is useful for solving a linear system of equations that has an upper-triangular coefficient matrix. 
+\item This algorithm will be incorporated in the algorithm for solving a general linear system.
+\end{itemize}
+\vspace{3mm}
+\begin{block}{Definition.}
+\begin{itemize}
+\item An  $N  \times N$ matrix  $A = [ a_{i , j} ]$ is called {\Large upper triangular} provided that the elements satisfy $ a_{i , j} = 0 $ whenever $ i > j $ . 
+\item The $N \times N$ matrix  $A = [a_{i , j} ]$ is called {\Large lower triangular} provided that $a_{i,j} = 0$ whenever $i < j$.
+\end{itemize}
+\end{block}
+}
+
+\frame{
+If $A$ is an upper-triangular matrix, then $A X = B$ is said to be an {\Large upper triangular system } of linear equations and has the form
+\begin{equation*}
+\begin{array}{ rl }
+a_{1,1} x_1 + a_{1,2} x_2  + a_{1,3} x_3 + \cdots +  a_{1, N-1} x_{N-1} + a_{1, N} x_N & = b_1 \\
+a_{2,2} x_2  + a_{2,3} x_3 + \cdots +  a_{2, N-1} x_{N-1} + a_{2, N} x_N & = b_2 \\
+a_{3,3} x_3 + \cdots +  a_{3, N-1} x_{N-1} + a_{3, N} x_N & = b_3 \\
+\vdots \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ & \ \ \vdots \\
+a_{N-1, N-1} x_{N-1} + a_{N-1, N} x_N & = b_{N-1} \\
+a_{N,N} x_N & = b_N 
+\end{array}
+\end{equation*}
+\begin{block}{Theorem (Back Substitution).}
+Suppose that $A X = B$ is an upper-triangular system with the form given in above upper triangular system. 
+If  $a_{k, k} \ne 0 \ \ \ for \ \ k = 1, 2, \ldots, N$,
+then there exists a {\Large unique solution} to this upper triangular system.
+\end{block}
+}
+
+\frame{
+\begin{block}{Constructive Proof of Theorem:} 
+\begin{itemize}
+\item The last equation involves only $x_N$, so we solve it first:
+\begin{equation*}
+x_N = \frac{b_N}{a_{N,N}} 
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+\item Now $x_N$ is known and it can be used in the next-to-last equation:
+\begin{equation*}
+x_{N-1} = \frac{b_{N-1} - a_{N-1,N}x_N}{a_{N-1,N-1}}
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+\item Now $x_N$ and $x_{N-1}$ are used to find $x_{N-2}$ :
+\begin{equation*}
+x_{N-2} = \frac{b_{N-2} - a_{N-2,N-1}x_{N-1} - a_{N-2,N}x_N }{a_{N-2,N-2}}
+\end{equation*}
+\end{itemize}
+\end{block}
+}
+
+\frame{
+\begin{block}{Constructive Proof of Theorem (continued):} 
+\vspace{5mm}
+\begin{center}
+$\Downarrow$
+\end{center}
+\begin{itemize}
+\item Once the values $x_N, x_{N-1}, \ldots, x_{k+1}$ are known, the general step is
+\begin{equation*}
+x_k = \frac{b_k - \sum_{j = k + 1}^N  a_{k, j}x_j }{a_{k, k}}
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+\item The uniqueness of the solution is easy to see. 
+\begin{itemize}
+\item The $N$-th equation implies that $b_N  \slash a_{N, N}$ is the {\Large only possible value} of $x_N$ .
+\item Then finite induction is used to establish that $x_{N-1}, x_{N-2}, \cdots , x_1$ are {\Large unique}.
+\end{itemize}
+\end{itemize}
+\end{block}
+}
+
+
+\frame{
+\frametitle{Example .}
+Use {\Large back substitution} to solve the linear system
+\begin{equation*}
+\begin{array}{r l}
+4x_1 - x_2 + 2x_3 + 3x_4 = & 20 \\
+-2x_2 + 7x_3 - 4x_4 = & -7 \\
+6x_3 + 5x_4 = & 4 \\
+3x_4 = & 6.
+\end{array}
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+Solving for $x_4$ in the last equation yields 
+\begin{equation*}
+x_4 = \frac{6}{3} = 2 
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+Using $x_4 = 2$ in the third equation, we obtain
+\begin{equation*}
+x_3 = \frac{4-5(2)}{6} = -1 
+\end{equation*}
+}
+
+\frame{
+\begin{center}
+$\Downarrow$
+\end{center}
+Now $x_3 = -1$ and $x_4 = 2$ are used to find $x_2$ in the second equation:
+\begin{equation*}
+x_2 = \frac{-7 - 7 (-1) + 4(2)}{-2} = -4 
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+Finally, $x_1$ is obtained using the first equation:
+\begin{equation*}
+x_1 = \frac{20 + 1 (-4)  - 2 (-1) - 3(2)}{4} = 3 
+\end{equation*}
+\begin{block}{}
+\begin{itemize}
+\item The condition that $a_{k,k}  \ne 0$ is essential. 
+\item If this requirement is not fulfilled, either no solution exists or infinitely many solutions exist.
+\end{itemize}
+\end{block}
+}
+
+\frame{
+\frametitle{Example.}
+Show that there is no solution to the linear system
+\begin{equation*}
+\begin{array}{r l}
+4x_1 -   x_2 + 2x_3 + 3x_4 = & 20 \\
+0x_2 + 7x_3 - 4x_4 = & -7 \\
+6x_3 + 5x_4 = & 4 \\
+3x_4 = & 6.
+\end{array}
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+Using the last equation, we must have $x_4 = 2$, 
+which is substituted into the second and third equations to obtain
+\begin{equation*}
+\begin{array}{r c r c r c r r}
+7x_3 & - & 8   & = & -7 & \rightarrow & x_3 = & 1/7 \\
+6x_3 & + & 10 & = & 4   & \rightarrow & x_3 = & -1
+\end{array}
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+\begin{block}{}
+This contradiction leads to the conclusion that there is no solution to the linear system .
+\end{block}
+}
+
+\frame{
+\frametitle{Example}
+Show that there are infinitely many solutions to
+\begin{equation*}
+\begin{array}{r l}
+4x_1 - x_2 + 2x_3 + 3x_4 = & 20 \\
+0x_2 + 7x_3 + 0x_4 = & -7 \\
+6x_3 + 5x_4 = & 4 \\
+3x_4 = & 6.
+\end{array}
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+Using the last equation, we must have $x_4 = 2$,
+\begin{center}
+$\Downarrow$
+\end{center}
+Substituted the $x_4 = 2$ into the second and third equations to get $x_3 = -1$.
+\begin{center}
+$\Downarrow$
+\end{center}
+}
+
+\frame{
+\begin{center}
+$\Downarrow$
+\end{center}
+Only two values $x_3$ and $x_4$ have been obtained, and when they are substituted into the first equation, the result is
+\begin{equation*}
+x_2 = 4 x_1 - 16
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+If we choose a value of $x_1$, then the value of $x_2$ is uniquely determined.
+\begin{center}
+$\Downarrow$
+\end{center}
+\begin{block}{}
+The values of $x_1$ and $x_2$ can not be uniquely determined by this linear system.
+\end{block}
+}
+
+
+
+\frame{
+\begin{block}{Theorem.}
+If the $ N \times N $ matrix $ A = [ a_{i,j} ] $ is either upper or lower triangular, then
+\begin{equation*}
+det (A) =a_{1,1}  a_{2,2} \cdots a_{N,N} = \prod_{i=1}^N a_{i, i}
+\end{equation*}
+\end{block}
+\begin{center}
+$\Downarrow$
+\end{center}
+\begin{itemize}
+\item The linear system $A X = B$, where $A$ is an $N \times N$ matrix,  has a unique solution if and only if $ det (A) \ne 0$.
+\item If any entry on the main diagonal of an upper- or lower-triangular matrix is zero,  then $det(A) = 0$.
+\end{itemize}
+\begin{center}
+$\Downarrow$
+\end{center}
+The proof  can be found in most introductory linear algebra textbooks.
+}
+
+

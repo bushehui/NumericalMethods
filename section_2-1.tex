@@ -1,0 +1,234 @@
+\subsection{Introduction to Vectors and Matrices}
+
+
+
+\frame{
+\frametitle{Vectors}
+A real $N$-dimensional vector $X$ is an ordered set of $N$ real numbers and is usually written in the coordinate form
+\begin{equation*}
+ X = \left( x_1, x_2, \ldots, x_N \right).
+\end{equation*}
+Here :
+\begin{itemize}
+\item The numbers $x_1$, $x_2$, $\ldots$, and $x_N$ are called the {\Large components} or {\Large coordinates} of $X$.
+\item The set consisting of all $N$-dimensional vectors is called {\Large $N$-dimensional space}.
+\item When a vector is used to denote a point or position in space, it is called a {\Large position vector}. 
+\item When it is used to denote a movement between two points in space, it is called a {\Large displacement vector}.
+\end{itemize}
+}
+
+\frame{
+Let another vector be $Y = (y_1, y_2, \ldots, y_N )$. 
+\begin{itemize}
+\item The two vectors $X$ and $Y$ are said to be equal if and only if each corresponding coordinate is the same; 
+that is, $X = Y$ if and only if $x_j = y_j$ for $j = 1, 2, \ldots, N$. 
+\item The sum of the vectors $X$ and $Y$ is computed component by component, using the definition
+\begin{equation*}
+X + Y = \left( x_1+y_1, x_2+y_2, \cdots, x_N+y_N\right)
+\end{equation*}
+\item The negative of the vector X is obtained by replacing each coordinate with its
+negative:
+\begin{equation*}
+- X = \left( -x_1, -x_2, \cdots, -x_N\right)
+\end{equation*}
+\item The difference $Y - X$ is formed by taking the difference in each coordinate:
+\begin{equation*}
+ Y - X = \left( y_1-x_1, y_2-x_2, \cdots, y_N-x_N\right)
+\end{equation*}
+\end{itemize}
+}
+
+\frame{
+\begin{itemize}
+\item Vectors in $N$-dimensional space obey the algebraic property
+\begin{equation*}
+Y - X = Y + (-X)
+\end{equation*}
+\item If $c$ is a real number (scalar), we define {\Large scalar multiplication} $cX$ as follows:
+\begin{equation*}
+c X = \left( c x_1, c x_2 \cdots, c x_N\right)
+\end{equation*}
+\item If $c$ and $d$ are scalars, then the weighted sum $cX +dY$ is called a {\Large linear combination} of $X$ and $Y$, and we write
+\begin{equation*}
+c X + d Y = \left( c x_1 + d y_1, c x_2 + d y_2 \cdots, c x_N + d y_N\right)
+\end{equation*}
+\end{itemize}
+}
+
+\frame{
+\begin{itemize}
+\item The {\Large dot product} of the two vectors $X$ and $Y$ is a scalar quantity (real number) defined by the equation
+\begin{equation*}
+ X \cdot Y = \left(  x_1  y_1 + x_2 y_2 + \cdots  x_N y_N\right)
+\end{equation*}
+\item The {\Large norm} (or {\Large length})\footnote{referred as the {\Large Euclidean norm} (or {\Large length} ) of the vector $X$} of the vector $X$ is defined by
+\begin{equation*}
+ || X || = \left(  x_1^2 + x_2^2  + \cdots + x_N^2 \right)^{1 \slash 2}
+\end{equation*}
+\end{itemize}
+
+\begin{block}{}
+\begin{equation*}
+\begin{array}{r}
+ || c X || = \left( c^2 x_1^2 + c^2 x_2^2  + \cdots + c^2 x_N^2 \right)^{1 \slash 2} \\
+= |c |  \left(  x_1^2 +  x_2^2  + \cdots +  x_N^2 \right)^{1 \slash 2}  = |c| \  ||X||
+\end{array}
+\end{equation*}
+\begin{equation*}
+|| X ||^2 = x_1^2 + x_2^2 + \cdots + x_N^2 = X \cdot X
+\end{equation*}
+\begin{equation*}
+|| Y - X || = \left( (y_1 - x_1)^2 + (y_2 - x_2)^2 + \cdots + (y_N - x_N)^2 \right)^{1 \slash 2}
+\end{equation*}
+\end{block}
+}
+
+\frame{
+\frametitle{Vector Algebra}
+Suppose that $X$, $Y$, and $Z$ are $N$-dimensional vectors and $a$ and $b$ are scalars (real numbers). 
+The following properties of vector addition and scalar multiplication hold:
+\begin{itemize}
+\item commutative property : $Y + X = X + Y$
+\item additive identity : $0 + X = X + 0$
+\item additive inverse : $X - X = X + (-X) = 0$
+\item associative property : $(X + Y) + Z = X + (Y + Z)$
+\item distributive property for scalars : $(a + b)X = aX + bX$
+\item distributive property for vectors : $a(X + Y) = aX + aY$
+\item associative property for scalars : $a(bX) = (ab)X$
+\end{itemize}
+}
+
+\frame{
+\frametitle{Matrices and Two-Dimensional Arrays}
+\begin{itemize}
+\item A matrix is a rectangular array of numbers that is arranged systematically in rows and columns. 
+\item A matrix having $M$ rows and $N$ columns is called an $M \times N$ \footnote{read “M by N”} matrix. 
+\item The capital letter A denotes a matrix, and the lowercase subscripted letter $a_{i, j}$ denotes one of the numbers forming the matrix. 
+\end{itemize}
+}
+
+\frame{
+We write
+\begin{equation*}
+A = [a_{i,j}]_{M \times N} \ \ \ for 1 \le i \le M, \ \  1 \le j \le N,
+\end{equation*}
+where $a_{i,j}$ is the number in location $(i, j)$ \footnote{i.e., stored in the ith row and j th column
+of the matrix}. 
+We refer to $a_{i, j}$ as the element in location $(i, j )$.
+In expanded form we write
+\begin{equation*}
+row \ \ i \rightarrow
+\left[
+\begin{array}{ c c c c c c}
+a_{1,1} & a_{1,2} & \cdots &a_{1,j} & \cdots & a_{1,N} \\
+a_{2,1} & a_{2,2} & \cdots &a_{2,j} & \cdots & a_{2,N} \\
+\vdots & \vdots &  &\vdots &  & a_{1,N} \\
+a_{i,1} & a_{i,2} & \cdots &a_{i,j} & \cdots & a_{i,N} \\
+\vdots & \vdots &         &\vdots &        & a_{1,N} \\
+a_{N,1} & a_{N,2} & \cdots &a_{N,j} & \cdots & a_{N,N}
+\end{array}
+\right]
+= A
+\end{equation*}
+\begin{equation*}
+\begin{array}{c}
+\uparrow \\
+column \ \  j
+\end{array}
+\end{equation*}
+}
+
+\frame{
+The rows of the $M \times N$ matrix $A$ are $N$-dimensional vectors:
+\begin{equation*}
+V_i = \left( a_{i1}, a_{i2}, \cdots , a_{i N} \right)  \ \ \ \  for \ \  i = 1, 2, \ldots, M.
+\end{equation*}
+The row vectors can also be viewed as $1 \times N$ matrices $V_i$.
+\begin{equation*}
+A = 
+\left[
+\begin{array}{c}
+V_1 \\
+V_2 \\
+\vdots \\
+V_i \\
+\vdots \\
+V_M
+\end{array}
+\right]
+= \left[ V_1, V_2, \cdots, V_i, \cdots, V_M\right]^T
+\end{equation*}
+}
+
+\frame{
+Similarly, the columns of the $M \times N$ matrix $A$ are $M \times 1$ matrices:
+\begin{equation*}
+C_1 = 
+\left[ 
+\begin{array}{c}
+a_{1,1} \\
+a_{2,1} \\
+\vdots \\
+a_{i,1} \\
+\vdots \\
+a_{M,1}
+\end{array}
+\right],
+\cdots,
+C_j = 
+\left[ 
+\begin{array}{c}
+a_{1,j} \\
+a_{2,j} \\
+\vdots \\
+a_{i,j} \\
+\vdots \\
+a_{M,j}
+\end{array}
+\right],
+\cdots,
+C_N = 
+\left[ 
+\begin{array}{c}
+a_{1,N} \\
+a_{2,N} \\
+\vdots \\
+a_{i,N} \\
+\vdots \\
+a_{M,N}
+\end{array}
+\right]
+\end{equation*}
+In this case we could express $A$ as a $1\times N$ matrix consisting of the $M \times 1$ column matrices $C_j$ :
+\begin{equation*}
+A = \left[ C_1, C_2, \cdots, C_j, \cdots, C_N \right]
+\end{equation*}
+}
+
+\frame{
+Let $A = [a_{i,j} ]_{M \times N}$ and $B = [b_{i, j} ]_{M \times N}$ be two matrices of the same dimension.
+\begin{itemize}
+\item $A=B$  if and only if $a_{i, j} = b_{i, j}$ for $1 \le i \le M$, $1 \le j\le N$.
+\item $A+B = \left[ a_{i, j} + b_{i, j} \right]_{M \times N}$ for $1 \le i \le M$, $1 \le j\le N$.
+\item $-A = \left[ - a_{i,j} \right]_{M \times N}$  for $1 \le i \le M$, $1 \le j\le N$.
+\item $A - B = \left[ a_{i, j} - b_{i, j} \right]_{M \times N}$ for $1 \le i \le M$, $1 \le j\le N$.
+\item $cA = \left[ c a_{i,j} \right]_{M \times N}$  for $1 \le i \le M$, $1 \le j\le N$.
+\item $pA + qB = \left[ p a_{i,j} + q b_{i,j} \right]_{M \times N}$ for $1 \le i \le M$, $1 \le j\le N$.
+\end{itemize}
+}
+
+\frame{
+\frametitle{Matrix Algebra}. 
+Suppose that $A$, $B$, and $C$ are $M \times N$ matrices and $p$ and $q$ are scalars. 
+The following properties of matrix addition and scalar multiplication hold:
+\begin{itemize}
+\item commutative property : $B + A = A + B$
+\item additive identity : $0 + A = A + 0$
+\item additive inverse : $A - A = A + (-A) = 0$
+\item associative property : $(A + B) + C = A + (B + C)$
+\item distributive property for scalars : $(p + q)A = pA + qA$
+\item distributive property for vectors : $p(A + B) = pA + pB$
+\item associative property for scalars : $p(qA) = (pq)A$
+\end{itemize}
+
+}

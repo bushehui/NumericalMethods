@@ -1,0 +1,440 @@
+\subsection{Introduction to Interpolation}
+
+%\frame{
+%\begin{itemize}
+%\item In Section 3.1 we saw how a {\Large Taylor polynomial} can be used to approximate the function $f(x)$. 
+%\item The information needed to construct the Taylor polynomial is the value of $f$ and its derivatives at $x_0$. 
+%\item A shortcoming is that the higher-order derivatives must be known, and often they are either not available or they are hard to compute. 
+%\end{itemize}
+%}
+
+\frame{
+\begin{block}{}
+Suppose that the function $y = f(x)$ is known at the $N + 1$ points $(x_0, y_0)$, $\ldots$, $(x_N, y_N)$, where the values $x_k$ are spread out over the interval $[a, b]$ and satisfy 
+\begin{equation*}
+a \le x_0 < x_1 < \cdots < x_N \le b \ \ \ and \ \ \ y_k = f(x_k)
+\end{equation*}
+\end{block}
+\begin{itemize}
+\item A polynomial $P(x)$ of degree $N$ will be constructed that passes through these $N + 1$ points. 
+\item In the construction, only the numerical values $x_k$ and $y_k$ are needed. 
+\item Hence the higher-order derivatives are not necessary. 
+\item The polynomial $P(x)$ can be used to approximate $f(x)$ over the entire interval $[a, b]$. 
+%\item However, if the error function $E(x) = f(x) - P(x)$ is required, then we will need to know $f^{(N+1)}(x)$ and a bound for its magnitude, that is,
+%\begin{equation*}
+%M = \max \left\{ \left| f^{(N+1)} (x) \right| : a \le x \le b \right\}
+%\end{equation*}
+\end{itemize}
+}
+
+\frame{
+\begin{itemize}
+%\item Situations in statistical and scientific analysis arise where the function $y = f(x)$ is available only at $N + 1$ tabulated points $(x_k, y_k)$, and a method is needed to approximate f$(x)$ at nontabulated abscissas.
+%\item If there is a significant amount of error in the tabulated values, then the methods of curve fitting in Chapter 4 should be considered. 
+%\item On the other hand, if the points $(x_k, y_k)$ are known to a high degree of accuracy, then the polynomial curve $y = P(x)$ that passes through them can be considered. 
+\item When $x_0 < x < x_N$, the approximation $P(x)$ is called an {\Large interpolated value}. 
+\item If either $x < x_0$ or $x_N < x$, then $P(x)$ is called an {\Large extrapolated value}. 
+\end{itemize}
+\begin{block}{}
+Polynomials are used to design software algorithms to approximate functions, for numerical differentiation, for numerical integration, and for making computer-drawn curves that must pass through specified points. 
+\end{block}
+}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{线性插值}
+
+\frame{
+\frametitle{线性插值是最简单的代数插值方式}
+给定 $y = f(x)$ 的函数表 :
+\begin{table}
+\begin{center}
+\begin{tabular}{| c | c | c |}
+\hline
+$x$ & $x_0$ & $x_1$ \\
+\hline
+$y = f(x)$ & $y_0$ & $y_1$ \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+构造函数$p_1(x)$满足：
+\begin{itemize}
+\item $p_1(x)$是一个不超过一次的多项式
+\item $p_1(x_0) = y_0$，$p_1(x_1) = y_1$
+\end{itemize}
+
+\begin{block}{则:}
+\begin{table}
+\begin{tabular}{ c  l }
+$x_0$和$x_1$  & 插值节点 \\
+$f(x)$  & 被插值函数 \\
+$p_1(x)$  & 线性插值函数 \\
+\end{tabular}
+\end{table}
+\end{block}
+}
+
+\frame{
+\begin{block}{线性插值的目的：}
+构造函数$p_1(x)$来近似替代$f(x)$。
+\begin{center}
+$\Downarrow$
+\end{center}
+当求某一点$x^{\ast}$的函数值时，可以用$p_1(x^{\ast})$来近似替代$f(x^{\ast})$
+\end{block}
+
+\begin{block}{几何意义：}
+用通过 ( $x_0$, $y_0$ ) 和 ( $x_1$, $y_1$ ) 两点的直线 $y=p_1(x)$ 来近似代替曲线$y = f(x)$，
+由初等几何知识可知 $y=p_1(x)$存在且唯一。
+\end{block}
+}
+
+\frame{
+\frametitle{Lagrange型线性插值函数}
+由直线方程的两点式可以直接得到
+\begin{equation*}
+p_1 (x) = \frac{x -x_1}{x_0 - x_1} y_0 + \frac{x -x_0}{x_1 - x_0} y_1
+\end{equation*}
+则$p_1(x)$为Lagrange型线性插值函数。
+\begin{center}
+$\Downarrow$
+\end{center}
+$p_1(x)$可认为是两个线性函数$l_0(x)$和$l_0(x)$的组合
+\begin{equation*}
+l_0 (x) = \frac{x -x_1}{x_0 - x_1} 
+\end{equation*}
+\begin{equation*}
+l_1 (x) = \frac{x -x_0}{x_1 - x_0} 
+\end{equation*}
+\begin{equation*}
+p_1 (x) = l_0 y_0 +  l_1 y_1
+\end{equation*}
+}
+
+\frame{
+\begin{block}{一介差商的定义}
+若
+\begin{equation*}
+f(x_i, x_j) = \frac{f(x_i) -f(x_j)}{x_i - x_j}
+\end{equation*}
+则称$f(x_i, x_j)$为函数$f(x)$在节点$x_i$和$x_j$的一介差商，其中$x_i$和$x_j$互异。
+\end{block}
+\begin{center}
+$\Downarrow$
+\end{center}
+\begin{block}{对称性}
+\begin{equation*}
+f(x_i, x_j) = \frac{f(x_i) -f(x_j)}{x_i - x_j} = \frac{f(x_j) -f(x_i)}{x_j - x_i} = f(x_i, x_j)
+\end{equation*}
+\end{block}
+}
+
+
+\frame{
+\frametitle{Newton型线性插值函数}
+已知$p_1(x) = a + b x$为直线方程且满足$p_1(x_0) = y_0$和$p_1(x_1) = y_1$，
+即经过 ( $x_0$, $y_0$ ) 和 ( $x_1$, $y_1$ ) 两点。
+\begin{center}
+$\Downarrow$
+\end{center}
+按照斜线方程 $y - y_0 = k (x - x_0)$，
+其中$k$为斜率，有
+\begin{equation*}
+\begin{array}{l l}
+p_1 (x) & = y_0 + \frac{y_1 - y_0}{x_1 - x_0} (x -x_0) \\
+& \\
+& = f(x_0) + \frac{f(x_1) - f(x_0)}{x_1 - x_0} (x -x_0)  \\
+& \\
+& = f(x_0) + f(x_0,x_1) (x-x_0)
+\end{array}
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+\begin{block}{}
+$p_1(x)$为Newton型线性插值函数
+\end{block}
+}
+
+\frame{
+\begin{block}{定理}
+设$p_1(x)$是通过($x_0, y_0$)和($x_1, y_1$)两点的线性插值函数，$[a, b]$是包含$x_0$, $x_1$的任一区间，并设$f(x) \in C^1 [a, b]$， $f''(x)$在$[a, b]$上存在，
+\begin{center}
+$\Downarrow$
+\end{center}
+则对任意给定的$x \in [a, b]$，总存在一点$\xi \in [a, b]$，使
+\begin{equation*}
+R(x) = f(x) - p_1(x) = \frac{f''(\xi)}{2!}(x -x_0)(x-x_1)
+\end{equation*}
+其中$\xi$依赖于$x$。
+\end{block}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{二次插值}
+
+\frame{
+\frametitle{二次插值的定义}
+给定函数表 :
+\begin{table}
+\begin{center}
+\begin{tabular}{| c | c | c | c |}
+\hline
+$x$ & $x_0$ & $x_1$ & $x_２$ \\
+\hline
+$y = f(x)$ & $y_0$ & $y_1$ & $y_２$ \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+构造函数$p_２(x)$满足：
+\begin{itemize}
+\item $p_２(x)$是一个不超过二次的多项式
+\item $p_２(x_0) = y_0$，$p_２(x_1) = y_1$，$p_２(x_２) = y_２$
+\end{itemize}
+
+\begin{block}{则:}
+\begin{table}
+\begin{tabular}{ c  l }
+$x_0$，$x_1$ 和　$x_２$ & 插值节点 \\
+$f(x)$  & 被插值函数 \\
+$p_２(x)$  & 线性插值函数 \\
+\end{tabular}
+\end{table}
+\end{block}
+}
+
+
+
+\frame{
+\begin{block}{二次插值的目的:}
+构造函数$p_2(x)$来近似替代$f(x)$。
+\begin{center}
+$\Downarrow$
+\end{center}
+当求某一点$x^{\ast}$的函数值时，可以用$p_２(x^{\ast})$来近似替代$f(x^{\ast})$
+\end{block}
+
+\begin{block}{函数$p_2(x)$}
+不超过二次项的代数多项式
+\begin{equation}
+p_2(x) = a_0 + a_1 x + a_2 x^2
+\end{equation}
+其中$a_0$， $a_1$ 和 $a_2$ 为待定常数。
+\end{block}
+}
+
+\frame{
+\frametitle{$a_0$，$a_1$和$a_2$的求解方法}
+根据上述的插值条件, 可以得到三个等式:
+\begin{equation*}
+\left\{
+\begin{array}{l l l}
+p_2(x_0) & = a_0 + a_1 x_0 + a_2 x_0^2 & = y_0 \\
+p_2(x_1) & = a_0 + a_1 x_1 + a_2 x_1^2 & = y_1 \\
+p_2(x_2) & = a_0 + a_1 x_2 + a_2 x_2^2 & = y_2 \\
+\end{array}
+\right.
+\end{equation*}
+其系数行列式为:
+\begin{equation*}
+\left[
+\begin{array}{c c c}
+1 & x_0 & x_0^2 \\
+1 & x_1 & x_1^2 \\
+1 & x_2 & x_2^2 \\
+\end{array}
+\right]
+= (x_1 - x_0) (x_2 - x_0) (x_2 - x_1)
+\end{equation*}
+\begin{block}{}
+只要$x_0$，$x_1$ 和　$x_２$互不相等，方程组的解$a_0$，$a_1$和$a_2$存在且唯一，
+这样就可以构造出唯一的$p_2(x)$。
+\end{block}
+}
+
+\frame{
+\frametitle{Lagrange型二次插值函数}
+设
+\begin{equation*}
+p_2(x) = l_0 (x) y_0 + l_1 (x) y_1 + l_2 (x) y_2
+\end{equation*}
+其中$l_0 (x)$，$l_1 (x)$和$l_2 (x)$为不超过二次的代数多项式，且满足下表：
+\begin{table}
+\begin{center}
+\begin{tabular}{| c | c | c | c |}
+\hline
+  & $x_0$ & $x_1$ & $x_２$ \\
+\hline
+$l_0(x)$ & 1 & 0 & 0 \\
+\hline
+$l_1(x)$ & 0 & 1 & 0 \\
+\hline
+$l_2(x)$ & 0 & 0 & 1 \\
+\hline
+\end{tabular}
+\caption{$l_0 (x)$，$l_1 (x)$和$l_2 (x)$在节点处的取值}
+\end{center}
+\end{table}
+\begin{center}
+$\Downarrow$
+\end{center}
+\begin{block}{}
+只要找到满足上表的$l_0 (x)$，$l_1 (x)$和$l_2 (x)$，就可以构造出$p_2(x)$。
+\end{block}
+}
+
+\frame{
+\frametitle{$l_0 (x)$的构造}
+根据上表，可以得出$l_0 (x_1) = 0$和$l_0 (x_2) = 0$
+\begin{center}
+$\Downarrow$
+\end{center}
+所以$l_0 (x)$必有因子$(x-x_1)(x-x_2)$。
+又因为$l_0 (x)$为不超过二次的多项式，而$(x-x_1)(x-x_2)$已经是二次的多项式。
+\begin{center}
+$\Downarrow$
+\end{center}
+%故
+\begin{equation*}
+l_0(x) = A (x-x_1) (x-x_2)
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+利用$l_0 (x_0) = 1$，我们可以得到
+\begin{equation*}
+A = \frac{1}{(x_0-x_1) (x_0-x_2)}
+\end{equation*}
+\begin{block}{}
+\begin{equation*}
+l_0 = \frac{(x-x_1) (x-x_2)}{(x_0-x_1) (x_0-x_2)}
+\end{equation*}
+\end{block}
+}
+
+\frame{
+同理，我们可以得到：
+\begin{equation*}
+l_1 = \frac{(x-x_0) (x-x_2)}{(x_1-x_0) (x_1-x_2)}
+\end{equation*}
+\begin{equation*}
+l_2 = \frac{(x-x_0) (x-x_1)}{(x_2-x_0) (x_2-x_1)}
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+\begin{block}{Lagrange型二次插值函数}
+\begin{equation*}
+\begin{array}{r l}
+p_2(x) = &  l_0 (x) y_0 + l_1 (x) y_1 + l_2 (x) y_2 \\
+& \\
+= &  \frac{(x-x_1) (x-x_2)}{(x_0-x_1) (x_0-x_2)} y_0 
+ + \frac{(x-x_0) (x-x_2)}{(x_1-x_0) (x_1-x_2)} y_1 
+ + \frac{(x-x_0) (x-x_1)}{(x_2-x_0) (x_2-x_1)} y_2\\
+\end{array}
+\end{equation*}
+\end{block}
+}
+
+\frame{
+\begin{block}{二介差商}
+若
+\begin{equation*}
+f(x_i, x_j, x_k) = \frac{f(x_i,x_j) - f(x_j, x_k)}{x_i - x_k}
+\end{equation*}
+则称$f(x_i, x_j, x_k)$为函数$f(x)$在节点$x_i$，$x_j$和$x_k$处的二介差商，
+其中$x_i$，$x_j$和$x_k$互异。
+\end{block}
+\begin{center}
+$\Downarrow$
+\end{center}
+与一介差商一样，二介差商也具有对称性。
+}
+
+\frame{
+\frametitle{Newton型二次插值函数}
+假设
+\begin{equation*}
+p_2(x) = A + B (x - x_0) + C (x-x_0)(x-x_1)
+\end{equation*}
+其中$A$，$B$和$C$为待定常数。
+\begin{center}
+$\Downarrow$
+\end{center}
+利用插值条件 $p_２(x_0) = y_0$，可得：
+\begin{equation*}
+ A = y_0 = f(x_0)
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+利用插值条件$p_２(x_1) = y_1$，可得
+\begin{equation*}
+ A + B (x_1 - x_0) = f(x_0) + B(x_1 - x_0) = y_1 = f(x_1)
+\end{equation*}
+\begin{equation*}
+B = \frac{f(x_1) - f(x_0)}{x_1 - x_0} = f(x_1, x_0) = f(x_0, x_1)
+\end{equation*}
+}
+
+
+\frame{
+\begin{center}
+$\Downarrow$
+\end{center}
+利用插值条件$p_２(x_２) = y_２$
+\begin{equation*}
+\begin{array}{l}
+ A + B (x_2 - x_0) + C(x_2 - x_0)(x_2 - x_1)  \\
+\hspace{5mm} 
+ = f(x_0) + f(x_0,  x_1)(x_2 - x_0) + C (x_2 - x_0)(x_2 - x_1) = y_2 = f(x_2)
+\end{array}
+\end{equation*}
+可得:
+\begin{equation*}
+\begin{array}{r l}
+C = & \frac{f(x_2) - f(x_0)}{(x_2-x_0)(x_2-x_1)} - \frac{f(x_0, x_1)}{x_2 - x_1} \\
+   = & \frac{f(x_2, x_0) - f(x_0, x_1)}{x_2-x_1} \\
+   = & f(x_0, x_1, x_2)\\
+\end{array}
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+\begin{equation*}
+p_2(x) = f(x_0) + f(x_0, x_1)(x-x_0) +  f(x_0, x_1, x_2)(x-x_0)(x-x_1)
+\end{equation*}
+}
+
+
+\frame{
+\begin{block}{定理}
+设$p_2(x)$是通过($x_0, y_0$)，($x_1, y_1$)和($x_1, y_1$)三点的二次插值函数，$[a, b]$是包含$x_0$, $x_1$ 和$x_2$的任一区间，并设$f(x) \in C^2 [a, b]$， $f^{(3)}(x)$在$[a, b]$上存在，
+\begin{center}
+$\Downarrow$
+\end{center}
+则对任意给定的$x \in [a, b]$，总存在一点$\xi \in [a, b]$，使
+\begin{equation*}
+R(x) = f(x) - p_2(x) = \frac{f^{(3)}(\xi)}{3!}(x -x_0)(x-x_1)(x-x_2)
+\end{equation*}
+其中$\xi$依赖于$x$。
+\end{block}
+}
+
+%\frame{
+%\frametitle{}
+%}
+
+
+

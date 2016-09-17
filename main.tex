@@ -1,0 +1,110 @@
+%&program=xela%&program=xelatex
+%&encoding=UTF-8 Unicode
+
+\documentclass{beamer}
+
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{latexsym}
+\usepackage{indentfirst}
+\usepackage{fontspec}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+\usepackage{beamerthemesplit}
+\usepackage{subfigure}
+\usepackage{verbatim}
+\usepackage{newlfont}
+\usepackage{cite}
+\usepackage{color}
+\usepackage{makeidx}
+
+\usepackage{listings}
+
+\usepackage{pstricks}
+
+\usepackage{tikz}
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+  \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+
+
+%\usetheme{Antibes}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Frankfurt}
+%\usetheme{Luebeck}
+%\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Pittsburgh}
+%\usetheme{Singapore}
+%\usetheme{Warsaw}
+
+%\usetheme[secheader]{Boadilla}
+\usecolortheme{rose}
+
+\setsansfont{文泉驿正黑} 
+%\setsansfont{STHeiti} 
+\setromanfont{Times New Roman}
+\setmainfont{文泉驿正黑}
+%\setmainfont{STHeiti}
+
+\usepackage{draftwatermark}
+\SetWatermarkText{\copyright BU-Shehui}
+
+\XeTeXlinebreaklocale “zh”
+\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
+
+\setbeamertemplate{items}[ball] 
+\setbeamertemplate{blocks}[rounded][shadow=true] 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\AtBeginSection[]{                              
+   \frame<handout:0>{
+      \frametitle{contents}
+         \tableofcontents[current,currentsubsection]
+   }
+}
+\AtBeginSubsection[]                            
+{
+   \frame<handout:0>{
+      \frametitle{contents} 
+         \tableofcontents[current,currentsubsection] 
+   }
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{document}
+
+\title{Numerical Methods Using Matlab}
+\subtitle{计算方法}
+\author{BU Shehui \\ 布 社辉}
+\institute[bushehui@scut.edu.cn]{School of Computer Science and Engineering,\\
+South China University of Technology (SCUT)\\
+华南理工大学 \\ 
+计算机科学与工程学院}
+
+\frame{\titlepage}
+
+%\include{preface}
+%\include{chapter_0}
+%\include{chapter_1}
+%\include{chapter_2}
+%\include{chapter_3}
+%\include{chapter_4}
+%\include{chapter_5}
+%\include{chapter_7}
+\include{chapter_6}
+
+
+
+%\input{ap_1}
+
+\end{document}
+

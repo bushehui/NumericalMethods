@@ -1,0 +1,227 @@
+\subsection{对称正定矩阵的平方根法和$LDL^T$分解法}
+
+\frame{
+当$A$是对称正定矩阵时，存在一个实的非奇异下三角矩阵$L_1$，使
+\begin{equation*}
+A = L_1 L_1^T
+\end{equation*}
+当限定$L_1$的对角线为正时，这种分解唯一。
+\begin{center}
+$\Downarrow$
+\end{center}
+这种分解称为矩阵的Cholesky分解。
+}
+
+\frame{
+\begin{block}{定理}
+设$A$是对称正定矩阵，则$A$有如下分解：
+\begin{equation*}
+A = L D L^T
+\end{equation*}
+其中，$L$是单位下三角阵，$D$为对角阵，且这种分解是唯一的。
+\end{block}
+Proof: \\
+因为$A$对称正定，从而$A$有唯一的LU分解
+\begin{equation*}
+A = 
+\left[ 
+\begin{array}{c c c c}
+1 & & & \\
+l_{21} & 1 & & \\
+\vdots & \vdots & \ddots & \\
+l_{n1} & l_{n2} & \cdots & 1
+\end{array}
+\right] 
+\left[ 
+\begin{array}{c c c c}
+u_{11} & u_{12} & \cdots & u_{1n} \\
+ & u_{22} & \cdots & u_{2n} \\
+ &  & \ddots & \vdots \\
+ &  &  & u_{nn} \\
+\end{array}
+\right] 
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+}
+
+\frame{
+因为：
+$\Delta_k = u_{11} \cdots u_{kk} \neq 0$ ($k = 1, 2, \cdots, n$)，故上式可化为
+\begin{block}{}
+$A = $
+\begin{equation*}
+\left[ 
+\begin{array}{c c c c}
+1 & & & \\
+l_{21} & 1 & & \\
+\vdots & \vdots & \ddots & \\
+l_{n1} & l_{n2} & \cdots & 1
+\end{array}
+\right] 
+\left[ 
+\begin{array}{c c c c}
+u_{11} &  &  &  \\
+ & u_{22} &  &  \\
+ &  & \ddots &  \\
+ &  &  & u_{nn} \\
+\end{array}
+\right] 
+\left[ 
+\begin{array}{c c c c}
+1 & u_{12} \slash u_{11}  & \cdots & u_{1n}\slash u_{11} \\
+ & 1 & \cdots & u_{2n} \slash u_{22} \\
+ &  & \ddots & \vdots \\
+ &  &  & 1 \\
+\end{array}
+\right] 
+\end{equation*}
+\end{block}
+\begin{center}
+$\Downarrow$
+\end{center}
+将右端三角矩阵分别记为$L$，$D$和$R$。\\
+因为$A$对称，有 \\
+\begin{center}
+$A = L D R = R^T D L^T$
+或者
+$A = L D R = R^T ( D L^T )$
+\end{center}
+\begin{center}
+$\Downarrow$
+\end{center}
+因为$A$的$LU$分解唯一，故$L = R^T$，$L^T = R$，$A = LDL^T$，此分解显然是唯一的。
+}
+
+\frame{
+\begin{block}{定理}
+$n$阶对称正定矩阵$A$一定有Cholesky分解$A = L_1 L_1^T$ $\Rightarrow$ 当限定$L_1$的对角线为正时，矩阵的Cholesky分解唯一。
+\end{block}
+证明：\\
+由上一个定理可知：$D = diag ( d_1, d_2, \cdots, d_n )$ $\Rightarrow$
+使
+$A = L D^{1 \slash 2} (L D^{1 \slash 2})^T$ \\
+\begin{center}
+$\Downarrow$
+\end{center}
+又记$L_1 = L D^{1 \slash 2}$，为一个非奇异下三角阵，一对角线元素为正，故$A$有Cholesky分解
+$A = L_1 L_1^T$
+\begin{center}
+$\Downarrow$
+\end{center}
+分解的唯一性显而易见。
+}
+
+\frame{
+\frametitle{Cholesky分解的计算公式}
+设 $A = L L^T$，即
+\begin{equation*}
+\left[ 
+\begin{array}{c c c c}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+a_{21} & a_{22} & \cdots & a_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{n1} & a_{n2} & \cdots & a_{nn} 
+\end{array}
+\right] 
+=
+\left[ 
+\begin{array}{c c c c}
+l_{11} &  &  &  \\
+l_{21} & l_{22} &  &  \\
+\vdots & \vdots & \ddots &  \\
+l_{n1} & l_{n2} & \cdots & l_{nn} 
+\end{array}
+\right] 
+\left[ 
+\begin{array}{c c c c}
+l_{11} & l_{12} & \cdots & l_{1n} \\
+ & l_{22} & \cdots & l_{2n} \\
+ &  & \ddots & \vdots \\
+ &  &  & l_{nn} 
+\end{array}
+\right] 
+\end{equation*}
+其中$a_{ij} = a_{ji}$，($i,j = 1, 2, \cdots, n$)；
+$l_{ii} > 0$，($i,j = 1, 2, \cdots, n$) \\ 
+\vspace{2mm}
+第一步：\\
+由矩阵乘法有$a_{11} = l_{11}^2$，且$a_{i1} = l_{l_i1} l_{11}$，故求得 \\
+$l_{11} = \sqrt{a_{11}}$，且$l_{i1} = a_{i1} \slash l_{11}$，($i,j = 1, 2, \cdots, n$) \\
+\begin{center}
+$\Downarrow$
+\end{center}
+}
+
+\frame{
+设$L$矩阵的前$k-1$列元素已经求出，\\
+则第$k$步：
+由矩阵乘法可得
+\begin{equation*}
+\sum_{m=1}^{k-1} l_{km}^2 + l_{kk}^2 = a_{kk} 
+\hspace{10mm} 
+\sum_{m=1}^{k-1} l_{im} l_{km} + l_{ik} l_{kk} = a_{ik} 
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+\begin{equation*}
+l_{kk} = \sqrt{ a_{kk} - \sum_{m=1}^{k-1} l_{km}^2}  
+\end{equation*}
+\begin{equation*}
+ l_{ik} = \frac{ a_{ik} - \sum_{m=1}^{k-1} l_{im} l_{km}} { l_{kk}} 
+\end{equation*}
+$i = k+1, \cdots, n$；$k = 1, 2, \cdots, n$ 
+\begin{center}
+$\Downarrow$
+\end{center}
+由于分解公式中的每一步都有开方运算，故又称Cholesky方法为平方根法。
+}
+
+
+\frame{
+由于
+\begin{equation*}
+a_{kk} = \sum_{m=1}^{k-1} l_{km}^2
+\end{equation*}
+\begin{center}
+$\Downarrow$
+\end{center}
+\begin{equation*}
+ l_{km}^2 \le a_{kk} \le \max_{1 \le k \le n} a_{kk}
+\end{equation*}
+消元法的舍入误差的放大受到限制，$\Rightarrow$ Cholesky方法不用考虑选主元的问题。
+}
+
+\frame{
+\begin{block}{Cholesky方法的算法}
+\begin{itemize}
+\item 输入$A$，$b$，$\varepsilon$
+\item $k=1, 2, \cdots, n$ :
+\begin{itemize}
+\item 计算$S_k = a_{kk} - \sum_{m=1}^{k-1} l^2_{km}$
+\item 若$S_k < \varepsilon $ ，则打印“求解失败”，出错处理
+\item 否则计算$l_{kk}=\sqrt{a_{kk} - \sum_{m=1}^{k-1} l_{km}^2}$，$l_{ik} = \frac{ a_{ik} - \sum_{m=1}^{k-1} l_{im} l_{km}} { l_{kk}} $
+\end{itemize}
+\item 求解$LY = b$
+\begin{itemize}
+\item $y_1 = b_1 \slash l_{11}$
+\item 对$i = 2, 3, \cdots, n$，计算 $y_i = (b_i - \sum_{j=1}^{i-1} l_{ij} y_j ) \slash l_{ii}$
+\end{itemize}
+\item 求解$L^T X = Y$
+\begin{itemize}
+\item $x_n = y_n \slash l_{nn}$
+\item 对$i = n-1, n-2, \cdots, 1$，计算$x_i = (y_i - \sum_{j= i+1}^n l_{ji} x_j ) \slash l_{ii} $
+\end{itemize}
+\item 打印$x_i$
+\end{itemize}
+\end{block}
+}
+
+
+
+%\subsection{向量与矩阵范数}
+
+%\frame{
+%}
